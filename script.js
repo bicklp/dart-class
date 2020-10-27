@@ -8,21 +8,21 @@ $(document).ready(function () {
   });
 });
 
-function CopyCodeToClipboard(){
+function CopyCodeToClipboard() {
   var txt = document.getElementById("txtClassOutput");
   txt.select();
   txt.setSelectionRange(0, 99999); /*For mobile devices*/
   document.execCommand("copy");
 
-    $(".alert").show();
-
+  $(".alert").show();
 }
 
-function HideAlert(){
-     $(".alert").hide();
+function HideAlert() {
+  $(".alert").hide();
 }
 
 function GenerateMainClass() {
+  HideAlert();
   var className = "";
   var property = {};
 
