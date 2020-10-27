@@ -1,15 +1,29 @@
 $(document).ready(function () {
   $("#btnGenerateClass").bind("click", function (e) {
-       GenerateMainClass();
+    GenerateMainClass();
+  });
+
+  $("#btnCopyToClipboard").bind("click", function (e) {
+    CopyCodeToClipboard();
   });
 });
 
-function GenerateMainClass() {
-  var dart = "import 'dart:convert';\n\n";
+function CopyCodeToClipboard(){
+  var txt = document.getElementById("txtClassOutput");
+  txt.select();
+  txt.setSelectionRange(0, 99999); /*For mobile devices*/
+  document.execCommand("copy");
 
+}
+
+function GenerateMainClass() {
   var className = "";
   var property = {};
 
+  //Dart Import
+  var dart = "import 'dart:convert';\n\n";
+
+  //read the lines one at a time and loop through
   var lines = $("#txtClassInput").val().split("\n");
   $.each(lines, function (k) {
     //Generate Class Name
@@ -19,20 +33,22 @@ function GenerateMainClass() {
       var res = str.split(" ");
       className = res[1];
       console.log(className);
-     
     }
 
+    //Replace c# code with dart syntax
     var code = lines[k].trim();
-     code = code.replace(className + " : ", className + " extends ");
+    code = code.replace(className + " : ", className + " extends ");
     code = code.replace(className + "();", "");
     code = code.replace("public class", "class");
     code = code.replace("string", "String");
     code = code.replace("public ", "");
     code = code.replace(" { get; set; }", ";");
     code = code.replace("decimal", "double");
-    var res = code.split(" ");
-    var name = res[1];
+
+    //Add all properties to property array
     try {
+      var res = code.split(" ");
+      var name = res[1];
       if (name != className) {
         name = name.replace(";", "");
         property[name] = name;
@@ -103,15 +119,3 @@ function BuildJsonExport(dart, property, className) {
 
   return dart;
 }
-
-// Map<String, dynamic> toMap() {
-//     return {
-//       'key_id': key_id,
-//       'database_object_number': database_object_number,
-//     };
-//   }
-
-// ForeignKey({
-//     this.key_id,
-//     this.database_object_number,
-//   });
