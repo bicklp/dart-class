@@ -16,9 +16,14 @@
                 <hr/>
                 <br/>
             </div>
+            <div class="col-12 text-center">
+                <div class="alert alert-success" role="alert" style="display:none">
+                    Code Copied to Clipboard
+                </div>
+            </div>
             <div class="col-6">
                 <p>Paste C# Class here</p>
-                <textarea id="txtClassInput" style="font-size:10px; height:60%" type="text" class="form-control" rows="30"></textarea>
+                <textarea id="txtClassInput" style="font-size:10px; height:60%" type="text" class="form-control" rows="30" onfocus="javascript:HideAlert()"></textarea>
                 <br/>
                 <button id="btnGenerateClass" class="btn btn-success btn-block">Generate Dart Class</button>
             </div>
@@ -32,7 +37,10 @@
         </div>
   
     </div>
+
+  
 </body>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -43,5 +51,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+
 <script src="script.js" type="text/javascript"></script>
 </html>

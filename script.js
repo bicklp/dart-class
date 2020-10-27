@@ -14,6 +14,12 @@ function CopyCodeToClipboard(){
   txt.setSelectionRange(0, 99999); /*For mobile devices*/
   document.execCommand("copy");
 
+    $(".alert").show();
+
+}
+
+function HideAlert(){
+     $(".alert").hide();
 }
 
 function GenerateMainClass() {
