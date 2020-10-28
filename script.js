@@ -57,7 +57,7 @@ function GenerateMainClass() {
       var name = res[1];
       if (name != className) {
         name = name.replace(";", "");
-        property[name] = name;
+        property[name] = res[0];
       }
     } catch (e) {}
 
@@ -77,8 +77,8 @@ function BuildConstructor(dart, property, className) {
   dart = dart.replace("}", "\n" + className + "({\n");
 
   $.each(property, function (index, value) {
-    console.log(value);
-    dart += "this." + value + ",\n";
+    console.log(index);
+    dart += "this." + index + ",\n";
   });
   dart += "});\n\n";
 
@@ -90,8 +90,9 @@ function BuildMap(dart, property, className) {
   dart += "return {\n";
 
   $.each(property, function (index, value) {
-    console.log(value);
-    dart += "'" + value + "' : " + value + ",\n";
+   
+    dart += "'" + index + "' : " + index + ",\n";
+
   });
 
   dart += "};\n}\n\n";
@@ -105,7 +106,12 @@ function BuildFactory(dart, property, className) {
   dart += "return " + className + "(\n";
 
   $.each(property, function (index, value) {
-    dart += value + ":map['" + value + "'],\n";
+     if(value == 'double'){
+      dart += index + ":double.parse(map['" + index + "'].toString()),\n";
+    }
+    else{
+      dart += index + ":map['" + index + "'],\n";
+    }
   });
 
   dart += ");\n}\n\n";
