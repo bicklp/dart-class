@@ -1,4 +1,8 @@
+var baseFields = {};
+var baseDart;
+
 $(document).ready(function () {
+  GenerateBaseJson();
   $("#btnGenerateClass").bind("click", function (e) {
     GenerateMainClass();
   });
@@ -27,7 +31,8 @@ function GenerateMainClass() {
   var property = {};
 
   //Dart Import
-  var dart = "import 'dart:convert';\n\n";
+  var dart = "import 'dart:convert';\n";
+  dart += "import 'based_object.dart';\n\n";
 
   //read the lines one at a time and loop through
   var lines = $("#txtClassInput").val().split("\n");
@@ -44,6 +49,7 @@ function GenerateMainClass() {
     //Replace c# code with dart syntax
     var code = lines[k].trim();
     code = code.replace(className + " : ", className + " extends ");
+    code = code.replace("basedbObject", "BaseDBObject");
     code = code.replace(className + "();", "");
     code = code.replace("public class", "class");
     code = code.replace("string", "String");
@@ -77,7 +83,6 @@ function BuildConstructor(dart, property, className) {
   dart = dart.replace("}", "\n" + className + "({\n");
 
   $.each(property, function (index, value) {
-    console.log(index);
     dart += "this." + index + ",\n";
   });
   dart += "});\n\n";
@@ -90,9 +95,11 @@ function BuildMap(dart, property, className) {
   dart += "return {\n";
 
   $.each(property, function (index, value) {
-   
     dart += "'" + index + "' : " + index + ",\n";
+  });
 
+  $.each(baseFields, function (index, value) {
+    dart += "'" + index + "' : " + index + ",\n";
   });
 
   dart += "};\n}\n\n";
@@ -106,15 +113,25 @@ function BuildFactory(dart, property, className) {
   dart += "return " + className + "(\n";
 
   $.each(property, function (index, value) {
-     if(value == 'double'){
+    if (value == "double") {
       dart += index + ":double.parse(map['" + index + "'].toString()),\n";
-    }
-    else{
+    } else {
       dart += index + ":map['" + index + "'],\n";
     }
   });
 
-  dart += ");\n}\n\n";
+  dart += ")";
+  
+  $.each(baseFields, function (index, value) {
+    if (value == "double") {
+      dart += ".." + index + "= double.parse(map['" + index + "'].toString())\n";
+    } else {
+      dart += ".." + index + " = map['" + index + "']\n";
+    }
+    
+  });
+
+  dart += ";\n}\n\n";
 
   return dart;
 }
@@ -130,4 +147,29 @@ function BuildJsonExport(dart, property, className) {
     ".fromMap(json.decode(source));\n\n";
 
   return dart;
+}
+
+function GenerateBaseJson() {
+  fetch("base.txt")
+    .then((response) => response.text())
+    .then((text) => {
+      //read the lines one at a time and loop through
+      var lines = text.split("\n");
+      $.each(lines, function (k) {
+        var code = lines[k].trim();
+        code = code.replace("string", "String");
+        code = code.replace("decimal", "double");
+
+        //Add all properties to property array
+        try {
+          var res = code.split(" ");
+          var name = res[1];
+          name = name.replace(";", "");
+          baseFields[name] = res[0];
+        } catch (e) {}
+
+        baseDart += code + "\r\n";
+      });
+    });
+  // outputs the content of the text file
 }
