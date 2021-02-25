@@ -32,7 +32,7 @@ function GenerateMainClass() {
 
   //Dart Import
   var dart = "import 'dart:convert';\n";
-  dart += "import 'based_object.dart';\n\n";
+  dart += "import 'base_db_object.dart';\n\n";
 
   //read the lines one at a time and loop through
   var lines = $("#txtClassInput").val().split("\n");
@@ -115,6 +115,8 @@ function BuildFactory(dart, property, className) {
   $.each(property, function (index, value) {
     if (value == "double") {
       dart += index + ":double.parse(map['" + index + "'].toString()),\n";
+    } else if (value == "int") {
+      dart += index + ":int.parse(map['" + index + "'].toString()),\n";
     } else {
       dart += index + ":map['" + index + "'],\n";
     }
@@ -125,6 +127,8 @@ function BuildFactory(dart, property, className) {
   $.each(baseFields, function (index, value) {
     if (value == "double") {
       dart += ".." + index + "= double.parse(map['" + index + "'].toString())\n";
+    } else if (value == "int") {
+      dart += ".." + index + "= int.parse(map['" + index + "'].toString())\n";
     } else {
       dart += ".." + index + " = map['" + index + "']\n";
     }
