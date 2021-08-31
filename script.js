@@ -127,9 +127,9 @@ function BuildFactory(dart, property, className) {
   dart += ")";
   
   $.each(baseFields, function (index, value) {
-    if (value == "double") {
+    if (value == "double?") {
       dart += ".." + index + " = double.parse(map['" + index + "'].toString())\n";
-    } else if (value == "int") {
+    } else if (value == "int?") {
       dart += ".." + index + " = int.parse(map['" + index + "'].toString())\n";
     } else {
       dart += ".." + index + " = map['" + index + "']\n";
@@ -165,7 +165,7 @@ function GenerateBaseJson() {
         var code = lines[k].trim();
         code = code.replace("string", "String?");
         code = code.replace("decimal", "double?");
-         code = code.replace("int", "int?");
+        code = code.replace("int", "int?");
 
 
         //Add all properties to property array
