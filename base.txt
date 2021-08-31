@@ -30,3 +30,4 @@ int transaction_log_enabled;
 int timeline_enabled;
 int database_object_number;
 int row_origin;
+int received_by_server;
