@@ -52,10 +52,12 @@ function GenerateMainClass() {
     code = code.replace("basedbObject", "BaseDBObject");
     code = code.replace(className + "();", "");
     code = code.replace("public class", "class");
-    code = code.replace("string", "String");
+    code = code.replace("string", "String?");
+    code = code.replace("decimal", "double?");
+    code = code.replace("int", "int?");
     code = code.replace("public ", "");
     code = code.replace(" { get; set; }", ";");
-    code = code.replace("decimal", "double");
+    
 
     //Add all properties to property array
     try {
@@ -161,8 +163,10 @@ function GenerateBaseJson() {
       var lines = text.split("\n");
       $.each(lines, function (k) {
         var code = lines[k].trim();
-        code = code.replace("string", "String");
-        code = code.replace("decimal", "double");
+        code = code.replace("string", "String?");
+        code = code.replace("decimal", "double?");
+         code = code.replace("int", "int?");
+
 
         //Add all properties to property array
         try {
