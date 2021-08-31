@@ -115,9 +115,9 @@ function BuildFactory(dart, property, className) {
   dart += "return " + className + "(\n";
 
   $.each(property, function (index, value) {
-    if (value == "double") {
+    if (value == "double?") {
       dart += index + ":double.parse(map['" + index + "'].toString()),\n";
-    } else if (value == "int") {
+    } else if (value == "int?") {
       dart += index + ":int.parse(map['" + index + "'].toString()),\n";
     } else {
       dart += index + ":map['" + index + "'],\n";
