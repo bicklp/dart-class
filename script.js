@@ -110,7 +110,7 @@ function BuildMap(dart, property, className) {
 }
 
 function BuildFactory(dart, property, className) {
-  dart += "factory " + className + ".fromMap(Map<String, dynamic> map) {\n";
+  dart += "factory " + className + ".fromMap(Map<String, dynamic>? map) {\n";
   dart += "if (map == null) return null;\n\n";
   dart += "return " + className + "(\n";
 
