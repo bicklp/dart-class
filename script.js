@@ -165,6 +165,7 @@ function GenerateBaseJson() {
         var code = lines[k].trim();
         code = code.replace("string", "String?");
         code = code.replace("decimal", "double?");
+        code = code.replace("double", "double?");
         code = code.replace("int", "int?");
 
 
