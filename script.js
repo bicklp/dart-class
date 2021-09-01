@@ -53,6 +53,7 @@ function GenerateMainClass() {
     code = code.replace(className + "();", "");
     code = code.replace("public class", "class");
     code = code.replace("string", "String?");
+    code = code.replace("double", "double?");
     code = code.replace("decimal", "double?");
     code = code.replace("int", "int?");
     code = code.replace("public ", "");
