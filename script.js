@@ -117,9 +117,9 @@ function BuildFactory(dart, property, className) {
 
   $.each(property, function (index, value) {
     if (value == "double?") {
-      dart += index + ":double.parse(map['" + index + "'].toString()),\n";
+      dart += index + ":double.tryParse(map['" + index + "'].toString()) ?? 0,\n";
     } else if (value == "int?") {
-      dart += index + ":int.parse(map['" + index + "'].toString()),\n";
+      dart += index + ":int.tryParse(map['" + index + "'].toString()) ?? 0,\n";
     } else {
       dart += index + ":map['" + index + "'],\n";
     }
@@ -129,9 +129,10 @@ function BuildFactory(dart, property, className) {
   
   $.each(baseFields, function (index, value) {
     if (value == "double?") {
-      dart += ".." + index + " = double.parse(map['" + index + "'].toString())\n";
+      dart += ".." + index + " = double.tryParse(map['" + index + "'].toString()) ?? 0\n";
     } else if (value == "int?") {
-      dart += ".." + index + " = int.parse(map['" + index + "'].toString())\n";
+      dart +=
+        ".." + index + " = int.tryParse(map['" + index + "'].toString())  ?? 0\n";
     } else {
       dart += ".." + index + " = map['" + index + "']\n";
     }
